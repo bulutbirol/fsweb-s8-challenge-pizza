@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom';
 export default function MainSection() {
+  
   return (
     <section className="main-section">
       <img src="/assets/iteration-1/home-banner.png" alt="Arka Plan" className="bg" />
@@ -8,7 +10,9 @@ export default function MainSection() {
         <h2>
           KOD ACIKTIRIR <br /> PIZZA, DOYURUR
         </h2>
-        <button>ACIKTIM</button>
+<Link to="/order" className="btn">
+  ACIKTIM
+</Link>
       </div>
     </section>
   );

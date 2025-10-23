@@ -10,24 +10,27 @@ export default function ProductSection() {
 
   return (
     <section className="last-section">
-      <p className="last-p">en çok paketlenen menüler</p>
-      <h2 className="last-title">Acıktıran Kodlara Doyuran Lezzetler</h2>
-      <CategoryBar />
-      <div className="cards">
-        {products.map(p => (
-          <article key={p.id} className="product-card">
-            <div className="product-media">
-              <img src={p.img} alt={p.name} />
-            </div>
-            <h3 className="product-title">{p.name}</h3>
-            <div className="product-meta">
-              <span className="rating">4.9</span>
-              <span className="reviews">(200)</span>
-              <span className="price">60₺</span>
-            </div>
-          </article>
-        ))}
-      </div>
-    </section>
+  <div className="container">
+    <p className="last-p">en çok paketlenen menüler</p>
+    <h2 className="last-title">Acıktıran Kodlara Doyuran Lezzetler</h2>
+    <CategoryBar />
+    <div className="cards">
+      {products.map(p => (
+        <article key={p.id} className="product-card">
+          <div className="product-media">
+            <img src={p.img} alt={p.name} />
+          </div>
+          <h3 className="product-title">{p.name}</h3>
+          <div className="product-meta">
+            <span className="rating">4.9</span>
+            <span className="reviews">(200)</span>
+            <span className="price">60₺</span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
   );
 }

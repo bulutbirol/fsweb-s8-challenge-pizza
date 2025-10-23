@@ -1,0 +1,224 @@
+import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import "./OrderPage.css";
+
+export default function OrderPage() {
+  const [size, setSize] = useState("");
+  const [dough, setDough] = useState("");
+  const [toppings, setToppings] = useState([]);
+  const [note, setNote] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+
+  const toppingList = [
+    "Pepperoni", "Sosis", "Kanada Jambonu", "Tavuk Izgara",
+    "Soğan", "Domates", "Mısır", "Sucuk", "Jalepeno",
+    "Sarımsak", "Biber", "Ananas", "Kabak"
+  ];
+
+  const toppingCost = toppings.length > 4 ? (toppings.length - 4) * 5 : 0;
+  const basePrice = 85.5;
+  const total = (basePrice + toppingCost) * quantity;
+
+  const handleToppingChange = (t) => {
+    if (toppings.includes(t)) {
+      setToppings(toppings.filter(item => item !== t));
+    } else if (toppings.length < 10) {
+      setToppings([...toppings, t]);
+    }
+  };
+  /*const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!size || !dough) {
+      alert("Lütfen pizza boyutu ve hamur seçiniz.");
+      return;
+    }
+    if (note.trim().length < 3) {
+      alert("Not alanına en az 3 karakter giriniz.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await axios.post("https://reqres.in/api/users", {
+        size,
+        dough,
+        toppings,
+        note,
+        quantity,
+        total,
+      });
+      console.log("✅ Response:", response.data);
+      navigate("/success", {
+        state: {
+          size,
+          dough,
+          toppings,
+          total,
+          toppingCost,
+        },
+      });
+    } catch (err) {
+      console.error(err);
+      alert("Bir hata oluştu, tekrar deneyiniz.");
+    }
+    setIsSubmitting(false);
+  };
+  */
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!size || !dough) {
+      alert("Lütfen pizza boyutu ve hamur seçiniz.");
+      return;
+    }
+    if (note.trim().length < 3) {
+      alert("Not alanına en az 3 karakter giriniz.");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    setTimeout(() => {
+      navigate("/success", {
+        state: {
+          size,
+          dough,
+          toppings,
+          total,
+          toppingCost,
+          quantity,
+        },
+      });
+      setIsSubmitting(false);
+    }, 800);
+  };
+
+
+
+  return (
+    <main className="order-page">
+      <header className="order-header">
+        <img
+          src="/assets/iteration-2/footer/logo-footer.svg"
+          alt="Teknolojik Yemekler"
+          className="logo"
+        />
+        <nav>
+          <a href="#">Anasayfa</a> • <span>Sipariş Oluştur</span>
+        </nav>
+      </header>
+
+      <section className="order-container">
+        <h2 className="product-name">Position Absolute Acı Pizza</h2>
+
+        <div className="price-rating">
+          <span className="price">85.50₺</span>
+          <span className="rating">4.9</span>
+          <span className="reviews">(200)</span>
+        </div>
+
+        <form className="order-form" onSubmit={handleSubmit}>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Boyut Seç <span className="req">*</span></label>
+              <div className="options">
+                {["Küçük", "Orta", "Büyük"].map(opt => (
+                  <label key={opt}>
+                    <input
+                      type="radio"
+                      name="size"
+                      value={opt}
+                      checked={size === opt}
+                      onChange={(e) => setSize(e.target.value)}
+                    />
+                    {opt}
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div className="form-group">
+              <label>Hamur Seç <span className="req">*</span></label>
+              <select value={dough} onChange={(e) => setDough(e.target.value)}>
+                <option value="">Hamur Kalınlığı</option>
+                <option value="ince">İnce</option>
+                <option value="orta">Orta</option>
+                <option value="kalın">Kalın</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label>Ek Malzemeler</label>
+            <p className="subtext">
+              En Fazla 10 malzeme seçilebilir. İlk 4’ü ücretsiz, sonrası 5₺.
+            </p>
+            <div className="toppings">
+              {toppingList.map((t, i) => (
+                <label key={i}>
+                  <input
+                    type="checkbox"
+                    checked={toppings.includes(t)}
+                    onChange={() => handleToppingChange(t)}
+                  />
+                  {t}
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div className="form-group">
+            <label>Sipariş Notu</label>
+            <textarea
+              value={note}
+              onChange={(e) => setNote(e.target.value)}
+              placeholder="Siparişine eklemek istediğin bir not var mı?"
+            />
+          </div>
+
+          <hr className="divider" />
+
+          <div className="order-bottom">
+            <div className="counter">
+              <button
+                type="button"
+                onClick={() => setQuantity(q => Math.max(1, q - 1))}
+              >
+                -
+              </button>
+              <span className="qty">{quantity}</span>
+              <button
+                type="button"
+                onClick={() => setQuantity(q => q + 1)}
+              >
+                +
+              </button>
+            </div>
+
+            <div className="summary-box">
+              <h3>Sipariş Toplamı</h3>
+              <div className="summary-line">
+                <span>Seçimler</span><span>{toppingCost.toFixed(2)}₺</span>
+              </div>
+              <div className="summary-line total">
+                <span className="total-label">Toplam</span>
+                <span className="total-price">{total.toFixed(2)}₺</span>
+              </div>
+              <button
+                type="submit"
+                className="btn-order"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? "Gönderiliyor..." : "SİPARİŞ VER"}
+              </button>
+            </div>
+          </div>
+        </form>
+      </section>
+    </main>
+  );
+}
