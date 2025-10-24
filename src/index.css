@@ -16,7 +16,7 @@
 
 a {
   font-weight: 500;
-  color: #646cff;
+  color: #424242;
   text-decoration: inherit;
 }
 
@@ -416,6 +416,7 @@ footer {
   background: #1A1A1A;
   color: white;
   font-family: Barlow, sans-serif;
+  display:block;
 }
 
 .contact-item {
@@ -531,19 +532,6 @@ footer h3 {
     height: 100%;
     object-fit: cover;
   }
-
-
-  @keyframes jump {
-
-    0%,
-    100% {
-      transform: translateY(0);
-    }
-
-    50% {
-      transform: translateY(10px);
-    }
-  }
 }
 
 @media (prefers-color-scheme: light) {
@@ -553,7 +541,7 @@ footer h3 {
   }
 
   a:hover {
-    color: #747bff;
+    color: #c62828;
   }
 
   button {

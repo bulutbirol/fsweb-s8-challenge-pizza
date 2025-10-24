@@ -1,7 +1,7 @@
+import "./OrderPage.css";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import "./OrderPage.css";
 
 export default function OrderPage() {
   const [size, setSize] = useState("");
@@ -29,9 +29,9 @@ export default function OrderPage() {
       setToppings([...toppings, t]);
     }
   };
-  /*const handleSubmit = async (e) => {
-    e.preventDefault();
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     if (!size || !dough) {
       alert("Lütfen pizza boyutu ve hamur seçiniz.");
       return;
@@ -40,93 +40,57 @@ export default function OrderPage() {
       alert("Not alanına en az 3 karakter giriniz.");
       return;
     }
-
     setIsSubmitting(true);
     try {
-      const response = await axios.post("https://reqres.in/api/users", {
-        size,
-        dough,
-        toppings,
-        note,
-        quantity,
-        total,
-      });
-      console.log("✅ Response:", response.data);
+      const response = await axios.post(
+        "https://reqres.in/api/users",
+        { size, dough, toppings, note, quantity, total },
+        { headers: { "x-api-key": "reqres-free-v1" } }
+      );
+      console.log(response.data);
       navigate("/success", {
-        state: {
-          size,
-          dough,
-          toppings,
-          total,
-          toppingCost,
-        },
+        state: { size, dough, toppings, total, toppingCost, quantity }
       });
-    } catch (err) {
-      console.error(err);
+    } catch {
       alert("Bir hata oluştu, tekrar deneyiniz.");
     }
     setIsSubmitting(false);
   };
-  */
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!size || !dough) {
-      alert("Lütfen pizza boyutu ve hamur seçiniz.");
-      return;
-    }
-    if (note.trim().length < 3) {
-      alert("Not alanına en az 3 karakter giriniz.");
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    setTimeout(() => {
-      navigate("/success", {
-        state: {
-          size,
-          dough,
-          toppings,
-          total,
-          toppingCost,
-          quantity,
-        },
-      });
-      setIsSubmitting(false);
-    }, 800);
-  };
-
-
 
   return (
     <main className="order-page">
       <header className="order-header">
-        <img
-          src="/assets/iteration-2/footer/logo-footer.svg"
-          alt="Teknolojik Yemekler"
-          className="logo"
-        />
-        <nav>
-          <a href="#">Anasayfa</a> • <span>Sipariş Oluştur</span>
-        </nav>
+        <h1>Teknolojik Yemekler</h1>
+        <div className="banner-wrapper"></div>
       </header>
 
-      <section className="order-container">
-        <h2 className="product-name">Position Absolute Acı Pizza</h2>
+      <img
+        src="/assets/iteration-2/pictures/form-banner.png"
+        alt="Pizza Banner"
+        className="pizza-banner"
+      />
 
+      <div className="urun-text">
+        <nav className="breadcrumb">
+          <a href="#">Anasayfa</a> • <span>Sipariş Oluştur</span>
+        </nav>
+        <h2 className="product-name">Position Absolute Acı Pizza</h2>
         <div className="price-rating">
           <span className="price">85.50₺</span>
-          <span className="rating">4.9</span>
-          <span className="reviews">(200)</span>
+          <span className="rating">4.9 (200)</span>
         </div>
+        <p className="product-text">
+          Frontent Dev olarak hala position:absolute kullanıyorsan bu çok acı pizza tam sana göre. Pizza, domates, peynir ve genellikle çeşitli diğer malzemelerle kaplanmış, daha sonra geleneksel olarak odun ateşinde bir fırında yüksek sıcaklıkta pişirilen, genellikle yuvarlak, düzleştirilmiş mayalı buğday bazlı hamurdan oluşan İtalyan kökenli lezzetli bir yemektir. Küçük bir pizzaya bazen pizzetta denir.
+        </p>
+      </div>
 
+      <section className="order-container">
         <form className="order-form" onSubmit={handleSubmit}>
           <div className="form-row">
             <div className="form-group">
               <label>Boyut Seç <span className="req">*</span></label>
               <div className="options">
-                {["Küçük", "Orta", "Büyük"].map(opt => (
+                {["S", "M", "L"].map(opt => (
                   <label key={opt}>
                     <input
                       type="radio"
@@ -144,7 +108,7 @@ export default function OrderPage() {
             <div className="form-group">
               <label>Hamur Seç <span className="req">*</span></label>
               <select value={dough} onChange={(e) => setDough(e.target.value)}>
-                <option value="">Hamur Kalınlığı</option>
+                <option value="" disabled hidden>-Hamur Kalınlığı Seç-</option>
                 <option value="ince">İnce</option>
                 <option value="orta">Orta</option>
                 <option value="kalın">Kalın</option>
@@ -154,19 +118,20 @@ export default function OrderPage() {
 
           <div className="form-group">
             <label>Ek Malzemeler</label>
-            <p className="subtext">
-              En Fazla 10 malzeme seçilebilir. İlk 4’ü ücretsiz, sonrası 5₺.
-            </p>
-            <div className="toppings">
+            <p className="subtext">En Fazla 10 malzeme seçilebilir. İlk 4’ü ücretsiz, sonrası 5₺.</p>
+
+            <div className="toppings-rows">
               {toppingList.map((t, i) => (
-                <label key={i}>
-                  <input
-                    type="checkbox"
-                    checked={toppings.includes(t)}
-                    onChange={() => handleToppingChange(t)}
-                  />
-                  {t}
-                </label>
+                <div
+                  key={i}
+                  className="topping-row"
+                  onClick={() => handleToppingChange(t)}
+                >
+                  <div className={`checkbox-45 ${toppings.includes(t) ? "on" : ""}`}>
+                    {toppings.includes(t) ? "✓" : ""}
+                  </div>
+                  <span className="topping-text">{t}</span>
+                </div>
               ))}
             </div>
           </div>
@@ -184,19 +149,9 @@ export default function OrderPage() {
 
           <div className="order-bottom">
             <div className="counter">
-              <button
-                type="button"
-                onClick={() => setQuantity(q => Math.max(1, q - 1))}
-              >
-                -
-              </button>
+              <button type="button" onClick={() => setQuantity(q => Math.max(1, q - 1))}>-</button>
               <span className="qty">{quantity}</span>
-              <button
-                type="button"
-                onClick={() => setQuantity(q => q + 1)}
-              >
-                +
-              </button>
+              <button type="button" onClick={() => setQuantity(q => q + 1)}>+</button>
             </div>
 
             <div className="summary-box">
@@ -208,11 +163,7 @@ export default function OrderPage() {
                 <span className="total-label">Toplam</span>
                 <span className="total-price">{total.toFixed(2)}₺</span>
               </div>
-              <button
-                type="submit"
-                className="btn-order"
-                disabled={isSubmitting}
-              >
+              <button type="submit" className="btn-order" disabled={isSubmitting}>
                 {isSubmitting ? "Gönderiliyor..." : "SİPARİŞ VER"}
               </button>
             </div>

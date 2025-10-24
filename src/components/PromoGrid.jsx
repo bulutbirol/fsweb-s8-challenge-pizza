@@ -5,15 +5,15 @@ export default function PromoGrid() {
       <section className="promo-grid">
         <article className="card-large bg-red">
           <div className="card-content">
-            <h1 className="title">Özel<br />Lezzetus</h1>
-            <p className="subtitle">Position: Absolute Acı Burger</p>
+            <h1 className="title" style={{ color: "white"}}>Özel<br />Lezzetus</h1>
+            <p className="subtitle" style={{ color: "white"}}>Position: Absolute Acı Burger</p>
             <Link to="/order" className="btn">SİPARİŞ VER</Link>
           </div>
         </article>
 
         <article className="card-small bg-dark">
           <div className="card-content">
-            <h2 className="card-title">Hackathlon<br />Burger Menü</h2>
+            <h2 className="card-title" style={{ color: "white"}}>Hackathlon<br />Burger Menü</h2>
             <Link to="/order" className="btn">SİPARİŞ VER</Link>
           </div>
         </article>
