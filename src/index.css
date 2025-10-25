@@ -144,13 +144,17 @@ button:focus-visible {
 
 .text .btn {
   font-family: 'Barlow', sans-serif;
-  width: 195px;
-  height: 56px;
+  width: 150px;
+  height: 40px;
   font-size: 18px;
   background: #FDC913;
   color: #292929;
   border-radius: 50px;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 25px;
 }
 
 .category-wrap {
@@ -193,7 +197,7 @@ button:focus-visible {
 
 .container {
   max-width: 1200px;
-  margin: 0 auto; 
+  margin: 0 auto;
   padding: 0 20px;
   box-sizing: border-box;
 }
@@ -204,7 +208,7 @@ button:focus-visible {
   grid-auto-rows: 1fr;
   justify-content: center;
   gap: 20px;
-  margin-top:50px;
+  margin-top: 50px;
 }
 
 .promo-grid img {
@@ -416,7 +420,7 @@ footer {
   background: #1A1A1A;
   color: white;
   font-family: Barlow, sans-serif;
-  display:block;
+  display: block;
 }
 
 .contact-item {
