@@ -49,7 +49,7 @@ export default function OrderPage() {
       );
       console.log(response.data);
       navigate("/success", {
-        state: { size, dough, toppings, total, toppingCost, quantity }
+        state: { size, dough, toppings, total, toppingCost, quantity, note }
       });
     } catch {
       alert("Bir hata oluştu, tekrar deneyiniz.");

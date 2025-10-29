@@ -10,7 +10,7 @@ export default function Success() {
         return <h2>Geçersiz işlem.</h2>;
     }
 
-    const { size, dough, toppings, total, toppingCost, quantity } = state;
+    const { size, dough, toppings, total, toppingCost, quantity, note } = state;
 
     return (
         <main className="success-page">
@@ -25,7 +25,7 @@ export default function Success() {
                     <p>Hamur: {dough}</p>
                     <p>Adet: {quantity}</p>
                     <p>Ek Malzemeler: {toppings.join(", ")}</p>
-
+                     <p>Sipariş Notu: {note}</p>
                     <div className="summary">
                         <h3>Sipariş Toplamı:</h3>
                         <p>Seçimler: {toppingCost.toFixed(2)}₺</p>
